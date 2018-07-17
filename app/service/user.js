@@ -1,3 +1,54 @@
+module.exports = app => {
+    return class Test extends app.Service {
+        async info(currentUserId) {
+            const currentUser = await this.app.mysql.get('user', { id: currentUserId });
+            return { currentUser };
+        }
+        async findUserById(uid) {
+            const user = await this.app.mysql.get('user', { id: uid });
+            return { user };
+        }
+        async findUserByName(uname) {
+            const user = await this.app.mysql.get('user', { name: uname });
+            return { user };
+        }
+        async findAll() {
+            const users = await this.app.mysql.get('user');
+            return users;
+        }
+        async addUser(name) {
+            now = Date.now();
+            const result = await this.app.mysql.insert('user', { name: name, data: now });
+            return result;
+        }
+
+        async deleteUser(uid) {
+            now = Date.now();
+            const result = await this.app.mysql.delete('user', { id: uid });
+            return result;
+        }
+
+        async updateUser(data) {
+            const result = await this.app.mysql.update('user', { id: data.id, name: data.name });
+            if (result.changedRows == 1) {
+                return 'success';
+            } else if (result.changedRows == 0) {
+                return 'fail';
+            }
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
 // 'use strict';
 
 // const Service = require('egg').Service;

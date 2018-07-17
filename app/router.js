@@ -14,6 +14,12 @@ module.exports = app => {
     // app.get('/del/:data', 'home.del');
     // app.get('/get/:data', 'home.reach');
     // app.get('/update/:data', 'home.update');
+    // app.get('/', 'home.index');
+    // router.get('/user', controller.user.findAll);
+    // updateUser
+    router.get('/user/:data', controller.user.updateUser);
+
+    // router.get('/user?id=1&body=update', controller.user.updateUser);
 };
 // 'use strict';
 
