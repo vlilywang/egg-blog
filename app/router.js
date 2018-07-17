@@ -15,9 +15,9 @@ module.exports = app => {
     router.get('/updateUser', controller.user.updateUser);
     router.get('/addUser', controller.user.addUser);
     router.get('/deleteUser/:id', controller.user.deleteUser);
-    router.get('findUserByName/:name', controller.user.findUserByName);
-    router.get('findUserById/:id', controller.user.findUserById);
-    router.get('findAll', controller.user.findAll);
+    router.get('/findUserByName/:name', controller.user.findUserByName);
+    router.get('/findUserById/:id', controller.user.findUserById);
+    router.get('/findAll', controller.user.findAll);
 };
 // 'use strict';
 

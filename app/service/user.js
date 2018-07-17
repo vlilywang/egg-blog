@@ -6,11 +6,19 @@ module.exports = app => {
         }
         async findUserById(uid) {
             const user = await this.app.mysql.get('user', { id: uid });
-            return { user };
+            if (!user) {
+                return 0;
+            } else {
+                return { user };
+            }
         }
         async findUserByName(uname) {
             const user = await this.app.mysql.get('user', { name: uname });
-            return { user };
+            if (!user) {
+                return '该用户不存在';
+            } else {
+                return { user };
+            }
         }
         async findAll() {
             const users = await this.app.mysql.select('user');
@@ -18,24 +26,77 @@ module.exports = app => {
             return users;
         }
         async addUser(data) {
-            now = Date.now();
-            const result = await this.app.mysql.insert('user', { name: data.name, data: now });
-            return result;
+            const now = Date.now();
+            if (data.name) {
+                const result = await this.app.mysql.insert('user', { name: data.name, data: now });
+                const re = 'success, insert id = ' + result.insertId;
+                return re;
+            } else {
+                return 'error';
+            }
+
         }
 
         async deleteUser(uid) {
-            now = Date.now();
-            const result = await this.app.mysql.delete('user', { id: uid });
-            return result;
+            // 该用户不存在
+            const findResult = this.findUserById(uid);
+            console.log(findResult);
+            return findResult;
+            // if (findResult == 0) {
+            //     return '该用户不存在';
+            // } else {
+            //     const result = await this.app.mysql.delete('user', { id: uid });
+            //     if (result.affectedRows == 0) {
+            //         return '删除失败'
+            //     } else {
+            //         return '删除成功';
+            //     }
+            // }
+            // if (findResult == '该用户不存在') {
+            //     return '该用户不存在';
+            // } else {
+            //     const result = await this.app.mysql.delete('user', { id: uid });
+            //     if (result.affectedRows == 0) {
+            //         return '删除失败'
+            //     } else {
+            //         return '删除成功';
+            //     }
+            // }
+            // if (findResult.user !== null) {
+            //     const result = await this.app.mysql.delete('user', { id: uid });
+            //     if (result.affectedRows == 0) {
+            //         return '删除失败'
+            //     } else {
+            //         return '删除成功';
+            //     }
+            // } else {
+            //     return '该用户不存在';
+            // }
+            // return findResult;
+            // if (findResult !== '该用户不存在') {
+            //     const result = await this.app.mysql.delete('user', { id: uid });
+            //     if (result.affectedRows == 0) {
+            //         return '删除失败'
+            //     } else {
+            //         return '删除成功';
+            //     }
+            // } else {
+            //     return '该用户不存在';
+            // }
         }
 
         async updateUser(data) {
-            const result = await this.app.mysql.update('user', { id: data.id, name: data.name });
-            if (result.changedRows == 1) {
-                return 'success';
-            } else if (result.changedRows == 0) {
-                return 'fail';
+            if (data.id && data.name) {
+                const result = await this.app.mysql.update('user', { id: data.id, name: data.name });
+                if (result.changedRows == 1) {
+                    return 'success';
+                } else if (result.changedRows == 0) {
+                    return 'fail';
+                }
+            } else {
+                return 'error';
             }
+
         }
 
     }
