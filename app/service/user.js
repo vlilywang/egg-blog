@@ -13,12 +13,13 @@ module.exports = app => {
             return { user };
         }
         async findAll() {
-            const users = await this.app.mysql.get('user');
+            const users = await this.app.mysql.select('user');
+            console.log(users);
             return users;
         }
-        async addUser(name) {
+        async addUser(data) {
             now = Date.now();
-            const result = await this.app.mysql.insert('user', { name: name, data: now });
+            const result = await this.app.mysql.insert('user', { name: data.name, data: now });
             return result;
         }
 

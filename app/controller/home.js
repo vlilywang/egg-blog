@@ -64,18 +64,17 @@ module.exports = app => {
             this.ctx.body = result;
         }
         async add() {
-            const data = this.ctx.params.data;
-            const result = await this.ctx.service.test.add(data);
-            console.log(result);
-            this.ctx.body = result;
-        }
-
-        // *
-        // del() {
-        //     const data = this.ctx.params.data;
-        //     const result = yield this.service.mysql.del(data);
-        //     this.ctx.body = result;
-        // }
+                const data = this.ctx.params.data;
+                const result = await this.ctx.service.test.add(data);
+                console.log(result);
+                this.ctx.body = result;
+            }
+            // *
+            // del() {
+            //     const data = this.ctx.params.data;
+            //     const result = yield this.service.mysql.del(data);
+            //     this.ctx.body = result;
+            // }
 
         // // 查询
         // *

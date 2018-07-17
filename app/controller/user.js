@@ -1,39 +1,33 @@
 module.exports = app => {
     class HomeController extends app.Controller {
         async findAll() {
-            console.log('findall');
             const users = await this.ctx.service.user.findAll();
             this.ctx.body = users;
         }
         async addUser() {
-            const result = await this.ctx.service.user.addUser();
+            const query = this.ctx.query;
+            const result = await this.ctx.service.user.addUser(query);
             this.ctx.body = result;
         }
         async deleteUser() {
-            const result = await this.ctx.service.user.deleteUser();
+            const id = this.ctx.params.id;
+            const result = await this.ctx.service.user.deleteUser(id);
             this.ctx.body = result;
         }
         async updateUser() {
-            console.log('/////////////////////////////////////////');
-            // const { ctx } = this;
-            // const id = id + ctx.params.id;
-            // const user = ctx.request.body;
-            // console.log(id);
-            // console.log(user);
             const query = this.ctx.query;
-            // const result = this.ctx.params.data;
-            // // ctx.body = await ctx.service.user.updateUser({id, user});
             const result = await this.ctx.service.user.updateUser(query);
             this.ctx.body = result;
         }
         async findUserByName() {
-            const data = this.ctx.params.data;
-            const user = await this.ctx.service.user.findUserByName(data);
+            const name = this.ctx.params.name; // 是路径中‘/’后面的
+            const user = await this.ctx.service.user.findUserByName(name);
             this.ctx.body = user;
         }
         async findUserById() {
-            const data = this.ctx.params.data;
-            const user = await this.ctx.service.user.findUserById(data);
+            // const query = this.ctx.query; // 是路径中？后面的 参数不能重复，若重复只取第一个
+            const id = this.ctx.params.id; // 是路径中‘/’后面的
+            const user = await this.ctx.service.user.findUserById(id);
             this.ctx.body = user;
         }
     }
