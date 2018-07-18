@@ -1,8 +1,18 @@
 module.exports = app => {
-    class HomeController extends app.Controller {
+    class UserController extends app.Controller {
+        // async index() {
+        //     const data = { name: 'egg' };
+        //     await ctx.render('userlist.tpl', data);
+        //     // ctx.body = await ctx.renderView('app/view/userlist.tpl', data);
+        //     // ctx.body = await ctx.renderString('hi, {{ name }}', data, {
+        //     //     viewEngine: 'nunjucks',
+        //     // });
+        // }
         async findAll() {
             const users = await this.ctx.service.user.findAll();
             this.ctx.body = users;
+            // await this.ctx.render('home.tpl', { articlelist: users });
+            // await this.ctx.render('userlist.tpl', { articlelist: users });
         }
         async addUser() {
             const query = this.ctx.query;
@@ -30,8 +40,14 @@ module.exports = app => {
             const user = await this.ctx.service.user.findUserById(id);
             this.ctx.body = user;
         }
+        async logout() {
+            const ctx = this.ctx;
+
+            ctx.logout();
+            ctx.redirect(ctx.get('referer') || '/');
+        }
     }
-    return HomeController;
+    return UserController;
 };
 // class UserController extends Controller {
 //     async create() {

@@ -6,9 +6,9 @@
   <body class="container">
   <h2>user list page</h2>
   <ul class="news-view view">
-      {% for item in list %}
+    {% for item in list %}
         <li class="item">
-         {{ item.name }}
+          {{ item.name }}
         </li>
       {% endfor %}
     </ul>

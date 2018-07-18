@@ -1,5 +1,5 @@
 module.exports = app => {
-    return class Test extends app.Service {
+    return class UserService extends app.Service {
         async info(currentUserId) {
             const currentUser = await this.app.mysql.get('user', { id: currentUserId });
             return { currentUser };

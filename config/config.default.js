@@ -83,9 +83,18 @@ exports.mysql = {
 };
 exports.keys = '_test';
 // 添加 view 配置
+const path = require('path');
 exports.view = {
     defaultViewEngine: 'nunjucks',
     mapping: {
         '.tpl': 'nunjucks',
     },
+    // root: [
+    //     path.join(appInfo.baseDir, 'app/view'),
+    //     // path.join(appInfo.baseDir, 'path/to/another'),
+    // ].join(',')
+};
+exports.passportGithub = {
+    key: 'c',
+    secret: 'd',
 };
