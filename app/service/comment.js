@@ -11,6 +11,10 @@ module.exports = app => {
             }
         }
 
+        async findCommentsByArticleId(data) {
+            const comment = await this.app.mysql.get('comment');
+        }
+
         async addComment(data) {
             const now = Date.now();
             if (data.title && data.content) {

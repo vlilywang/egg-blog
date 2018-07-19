@@ -22,7 +22,6 @@ module.exports = app => {
         }
         async findAll() {
             const users = await this.app.mysql.select('user');
-            console.log(users);
             return users;
         }
         async addUser(data) {

@@ -29,7 +29,11 @@ module.exports = app => {
     router.get('/api/getArticleDetail/:id', controller.article.getDetail);
     router.get('/api/getAllArticle', controller.article.findAll);
     router.get('api/getLast/:id', controller.article.getLast);
+
     router.get('/api/areas', controller.area.findAll);
+
+    router.get('/api/login', controller.user.login);
+    router.get('/api/test', controller.user.findBeforeLogin);
 };
 // 'use strict';
 

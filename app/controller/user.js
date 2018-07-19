@@ -8,6 +8,25 @@ module.exports = app => {
         //     //     viewEngine: 'nunjucks',
         //     // });
         // }
+        async findBeforeLogin() {
+            const users = await this.ctx.service.user.findAll();
+            this.ctx.body = users;
+            // return users;
+        }
+        async login() {
+            const users = this.findBeforeLogin();
+            const user = this.ctx.query;
+            console.log(user.name);
+            console.log(user.password);
+            console.log(users.length);
+            console.log(users);
+            for (var i = users.length - 1; i >= 0; i--) {
+                if (user.name == users[i].name && user.password == users[i].password) {
+                    return true;
+                }
+            };
+            return false
+        }
         async findAll() {
             const users = await this.ctx.service.user.findAll();
             this.ctx.body = users;

@@ -26,11 +26,8 @@ module.exports = app => {
             //     }
             // }
         async findAll(data) {
-            // const articles = await this.app.mysql.select('article', {
-            //     state: 1
-            // });
+            // const articles = await this.app.mysql.select('article', { state: 1 });
             // const articles = await this.app.mysql.query('SELECT article.title, article.content, article.boardname, article.publishtime, user.name, user.headimg FROM article, user WHERE article.userid = user.id AND article.state=1 ORDER BY publishtime desc');
-            // const articles = await this.app.mysql.select('tb_news_doc_info');\
             const pageSize = data.pageSize;
             let start = (data.page - 1) * data.pageSize;
             const articles = await this.app.mysql.query('select * from tb_news_doc_info limit ' + start + ',' + pageSize);
@@ -41,7 +38,8 @@ module.exports = app => {
             resulta.totalAmount = totalAmount;
             resulta.data = articles;
             resulta.totalPage = totalPage;
-            return resulta;
+            const result = JSON.stringify({ msg: '操作成功', status: '100', totalPage: totalPage, data: articles, totalAmount: totalAmount })
+            return result;
         }
 
         async addArticle(data) {

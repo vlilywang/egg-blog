@@ -11,10 +11,14 @@ module.exports = app => {
             this.ctx.body = result;
         }
         async findCommentById() {
-            // const query = this.ctx.query; // 是路径中？后面的 参数不能重复，若重复只取第一个
             const id = this.ctx.params.id; // 是路径中‘/’后面的
             const comment = await this.ctx.service.comment.findCommentById(id);
             this.ctx.body = comment;
+        }
+        async findCommentsByArticleId() {
+            const query = this.ctx.query;
+            const comments = await this.ctx.service.comment.findCommentsByArticleId(query);
+            this.ctx.body = comments;
         }
     }
     return CommentController;
