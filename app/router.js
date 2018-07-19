@@ -26,9 +26,9 @@ module.exports = app => {
     router.get('/api/updateArticle', controller.article.updateArticle);
     router.get('/api/addArticle', controller.article.addArticle);
     router.get('/api/deleteArticle/:id', controller.article.deleteArticle);
-    router.get('/api/getDetail/:id', controller.article.getDetail);
+    router.get('/api/getArticleDetail/:id', controller.article.getDetail);
     router.get('/api/getAllArticle', controller.article.findAll);
-
+    router.get('api/getLast/:id', controller.article.getLast);
     router.get('/api/areas', controller.area.findAll);
 };
 // 'use strict';

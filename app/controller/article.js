@@ -1,7 +1,8 @@
 module.exports = app => {
     class ArticleController extends app.Controller {
         async findAll() {
-            const articles = await this.ctx.service.article.findAll();
+            const query = this.ctx.query;
+            const articles = await this.ctx.service.article.findAll(query);
             this.ctx.body = articles;
         }
         async addArticle() {
@@ -22,7 +23,15 @@ module.exports = app => {
         async getDetail() {
             // const query = this.ctx.query; // 是路径中？后面的 参数不能重复，若重复只取第一个
             const id = this.ctx.params.id; // 是路径中‘/’后面的
-            const article = await this.ctx.service.article.getDetail(id);
+            const article = await this.ctx.service.article.findArticleById(id);
+            this.ctx.body = article;
+        }
+        async getLast() {
+            console.log('////////////////////////////////////////////////////////////')
+            const id = this.ctx.params.id;
+            console.log(id);
+            const article = await this.ctx.service.article.findLastArticleById(id);
+            console.log(article);
             this.ctx.body = article;
         }
     }

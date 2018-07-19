@@ -1,14 +1,21 @@
 module.exports = app => {
     return class ArticleService extends app.Service {
         async findArticleById(aid) {
-                const article = await this.app.mysql.get('article', {
-                    id: aid
-                });
-                if (!article) {
-                    return 0;
-                } else {
-                    return article;
-                }
+            const article = await this.app.mysql.get('tb_news_doc_info', {
+                fl_sid: aid
+            });
+            if (!article) {
+                return 0;
+            } else {
+                return article;
+            }
+        }
+        async findLastArticleById(id) {
+                const article = await this.app.mysql.query(`select * from tb_news_doc_info where fl_sid = (select fl_sid from tb_news_doc_info where fl_sid < ${id} order by fl_publish_time desc limit 1`);
+                console.log(article);
+                // select * from tb_news_doc_info where fl_sid = 
+                // (select fl_sid from tb_news_doc_info where fl_sid < 539303 order by fl_publish_time desc limit 1);   
+                return article;
             }
             // async findUserByName(uname) {
             //     const user = await this.app.mysql.get('user', { name: uname });
@@ -18,12 +25,23 @@ module.exports = app => {
             //         return { user };
             //     }
             // }
-        async findAll() {
-            const articles = await this.app.mysql.select('article', {
-                state: 1
-            });
-            console.log(articles);
-            return articles;
+        async findAll(data) {
+            // const articles = await this.app.mysql.select('article', {
+            //     state: 1
+            // });
+            // const articles = await this.app.mysql.query('SELECT article.title, article.content, article.boardname, article.publishtime, user.name, user.headimg FROM article, user WHERE article.userid = user.id AND article.state=1 ORDER BY publishtime desc');
+            // const articles = await this.app.mysql.select('tb_news_doc_info');\
+            const pageSize = data.pageSize;
+            let start = (data.page - 1) * data.pageSize;
+            const articles = await this.app.mysql.query('select * from tb_news_doc_info limit ' + start + ',' + pageSize);
+            const ta = await this.app.mysql.query('SELECT COUNT(*) FROM tb_news_doc_info ');
+            const totalAmount = ta[0]['COUNT(*)'];
+            const totalPage = Math.ceil(totalAmount / pageSize)
+            let resulta = {};
+            resulta.totalAmount = totalAmount;
+            resulta.data = articles;
+            resulta.totalPage = totalPage;
+            return resulta;
         }
 
         async addArticle(data) {
